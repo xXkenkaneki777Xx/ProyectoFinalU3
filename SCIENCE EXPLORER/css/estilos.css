@@ -1,9 +1,100 @@
 * {
     margin: 0;
     padding: 0;
-    font-family: Verdana, Geneva, Tahoma, sans-serifs;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body {
+    background-color: rgb(46, 46, 150);
+}
+
+body h2 {
+    color: yellow;
+    margin: 10px 50px;
+}
+
+.btn-menu {
+    font-size: 40px;
+    display: none;
+}
+
+#check {
+    display: none;
 }
 
 .encabezado {
     width: 100%;
+    background-color: rgb(35, 35, 148);
+    color: rgb(252, 252, 37);
+    text-align: center;
+    border-bottom: 3px solid rgb(84, 253, 253);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.encabezado .titulo {
+    margin-bottom: 10px;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.encabezado .enlaces ul {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.encabezado .enlaces ul li a {
+    display: block;
+    padding: 10px 20px;
+    margin-bottom: 2px;
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    font-weight: bold;
+}
+
+.encabezado .enlaces ul li .active {
+    background-color: #4343cc;
+    color: black;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    text-shadow: none;
+}
+
+.encabezado .enlaces ul li a:hover {
+    color: rgb(245, 245, 170);
+}
+
+.encabezado .enlaces ul li .active:hover {
+    background-color: #4c4ccf;
+    color: black;
+}
+
+@media(max-width: 1280px) {
+    .encabezado .enlaces ul {
+        gap: 20px;
+    }
+}
+
+@media(max-width: 768px) {
+    .encabezado .enlaces ul {
+        gap: 2px;
+    }
+}
+
+@media(max-width: 360px) {
+    .encabezado .enlaces {
+        display: none;
+    }
+
+    .btn-menu {
+        font-size: 40px;
+        display: flex;
+        position: relative;
+        left: 2px;
+    }
 }
