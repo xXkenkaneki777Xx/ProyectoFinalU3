@@ -18,6 +18,7 @@ function buscarDescubrimientoPorId(id) {
 
 function inicializarSelectAreasBiblioteca() {
     const select = document.getElementById("filtroAreaBib");
+    select.innerHTML = '<option value="TODAS">Todas</option>';
     for (let i = 0; i < AREAS.length; i++) {
         const opt = document.createElement("option");
         opt.value = AREAS[i].codigo;
@@ -161,61 +162,69 @@ function abrirDetalleDescubrimiento(id) {
     const cuerpo = document.getElementById("cuerpoModal");
     cuerpo.innerHTML = "";
 
-    const h2 = document.createElement("h2");
-    h2.id = "modalTitulo";
-    h2.textContent = d.titulo + " (" + d.anio + ")";
+    const img = document.createElement("img");
+    img.className = "modal-imagen";
+    img.src = d.imagen;
+    img.alt = "Ilustración de " + d.titulo;
 
-    const info = document.createElement("p");
-    info.textContent = "Área: " + obtenerNombreArea(d.area) + " | Tipo: " + d.tipo + " | Estado: " + d.estadoMadurez;
+    const h3 = document.createElement("h3");
+    h3.id = "modalTitulo";
+    h3.textContent = d.titulo + " (" + d.anio + ")";
 
-    const protag = document.createElement("p");
-    protag.textContent = "Protagonistas: " + d.protagonistas;
+    const dl = document.createElement("dl");
+    dl.className = "modal-datos";
 
-    const pResumen = document.createElement("p");
-    pResumen.textContent = "Resumen: " + d.resumen;
-
-    const pProblema = document.createElement("p");
-    pProblema.textContent = "Problema: " + d.problema;
-
-    const pExplicacion = document.createElement("p");
-    pExplicacion.textContent = "Explicación: " + d.explicacion;
-
-    const pImpacto = document.createElement("p");
-    pImpacto.textContent = "Impacto: " + d.impacto;
-
-    cuerpo.appendChild(h2);
-    cuerpo.appendChild(info);
-    cuerpo.appendChild(protag);
-    cuerpo.appendChild(pResumen);
-    cuerpo.appendChild(pProblema);
-    cuerpo.appendChild(pExplicacion);
-    cuerpo.appendChild(pImpacto);
-
-    if (d.limitaciones) {
-        const pLim = document.createElement("p");
-        pLim.textContent = "Limitaciones: " + d.limitaciones;
-        cuerpo.appendChild(pLim);
+    function agregarCampoDL(etiqueta, valor) {
+        const dt = document.createElement("dt");
+        dt.textContent = etiqueta;
+        const dd = document.createElement("dd");
+        dd.textContent = valor;
+        dl.appendChild(dt);
+        dl.appendChild(dd);
     }
 
-    const pFuente = document.createElement("p");
-    pFuente.textContent = "Fuente (" + d.fechaConsulta + "): ";
+    agregarCampoDL("Área", obtenerNombreArea(d.area));
+    agregarCampoDL("Tipo", d.tipo);
+    agregarCampoDL("Protagonistas", d.protagonistas);
+    agregarCampoDL("Estado de madurez", d.estadoMadurez);
+    agregarCampoDL("Resumen", d.resumen);
+    agregarCampoDL("Problema", d.problema);
+    agregarCampoDL("Explicación", d.explicacion);
+    agregarCampoDL("Impacto", d.impacto);
+
+    if (d.limitaciones) {
+        agregarCampoDL("Limitaciones", d.limitaciones);
+    }
+
+    if (Array.isArray(d.etiquetas) && d.etiquetas.length > 0) {
+        agregarCampoDL("Etiquetas", d.etiquetas.join(", "));
+    }
+
+    const dtFuente = document.createElement("dt");
+    dtFuente.textContent = "Fuente (" + d.fechaConsulta + ")";
+    const ddFuente = document.createElement("dd");
     const enlace = document.createElement("a");
     enlace.href = d.fuenteURL;
     enlace.target = "_blank";
     enlace.rel = "noopener noreferrer";
     enlace.textContent = d.fuenteTitulo;
-    enlace.style.color = "#ffd54f";
-    pFuente.appendChild(enlace);
-    cuerpo.appendChild(pFuente);
+    ddFuente.appendChild(enlace);
+    dl.appendChild(dtFuente);
+    dl.appendChild(ddFuente);
 
     const btnFav = document.createElement("button");
     btnFav.type = "button";
-    btnFav.className = "btn-primario";
-    btnFav.style.marginTop = "12px";
+    btnFav.className = "boton boton-secundario";
+    btnFav.setAttribute("aria-pressed", esFavorito(d.id) ? "true" : "false");
+    btnFav.style.marginTop = "16px";
     btnFav.textContent = esFavorito(d.id) ? "Quitar de favoritos" : "Añadir a favoritos";
     btnFav.onclick = function () {
         alternarFavorito(d.id);
     };
+
+    cuerpo.appendChild(img);
+    cuerpo.appendChild(h3);
+    cuerpo.appendChild(dl);
     cuerpo.appendChild(btnFav);
 
     modal.classList.remove("oculto");
@@ -229,6 +238,7 @@ function cerrarModal() {
 // Científicos
 function inicializarSelectDisciplinas() {
     const select = document.getElementById("filtroDisciplinaCient");
+    select.innerHTML = '<option value="TODAS">Todas</option>';
     const vistas = [];
     for (let i = 0; i < CIENTIFICOS.length; i++) {
         const disc = CIENTIFICOS[i].disciplinaPrincipal;
@@ -384,7 +394,7 @@ function mostrarDetalleCientifico(id) {
         if (ficha) {
             const btnRel = document.createElement("button");
             btnRel.type = "button";
-            btnRel.className = "btn-secundario";
+            btnRel.className = "boton boton-secundario boton-chico";
             btnRel.textContent = ficha.titulo;
             btnRel.onclick = function () {
                 document.getElementById("descubrimientos").scrollIntoView({ behavior: "smooth" });
@@ -395,13 +405,13 @@ function mostrarDetalleCientifico(id) {
     }
 
     const fuente = document.createElement("p");
-    fuente.style.marginTop = "10px";
+    fuente.style.marginTop = "12px";
     const a = document.createElement("a");
     a.href = perfil.fuenteURL;
     a.target = "_blank";
     a.rel = "noopener noreferrer";
     a.textContent = "Referencia documental";
-    a.style.color = "#ffd54f";
+    a.style.color = "var(--amarillo)";
     fuente.appendChild(a);
 
     panel.appendChild(h3);
@@ -417,6 +427,7 @@ function mostrarDetalleCientifico(id) {
 // Línea del tiempo
 function inicializarSelectAreasCrono() {
     const select = document.getElementById("filtroAreaCrono");
+    select.innerHTML = '<option value="TODAS">Todas</option>';
     for (let i = 0; i < AREAS.length; i++) {
         const opt = document.createElement("option");
         opt.value = AREAS[i].codigo;

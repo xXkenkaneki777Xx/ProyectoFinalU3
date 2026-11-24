@@ -93,7 +93,7 @@ function calcularAuto() {
     }
 
     const porcentaje = Math.min(100, Math.round((dist / 150) * 100));
-    visual.innerHTML = '<div class="barra-relleno" style="width:' + porcentaje + '%;background:' + colorBarra + ';"></div>';
+    visual.innerHTML = '<div style="width:' + porcentaje + '%;height:14px;border-radius:8px;background:' + colorBarra + ';margin-top:10px;"></div>';
     out.textContent = "Estado: " + estado + " | Seguridad: " + seguridad.toFixed(2) + " m | " + explicacion;
 }
 

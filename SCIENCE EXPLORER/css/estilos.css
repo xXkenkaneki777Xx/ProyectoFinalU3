@@ -1014,11 +1014,25 @@ body h2 {
     margin-top: 12px;
 }
 
+.ficha-imagen {
+    width: 100% !important;
+    height: 170px !important;
+    object-fit: cover;
+}
+
+.cientifico-card img {
+    width: 100% !important;
+    height: 220px !important;
+    object-fit: cover;
+}
+
 .opcion.seleccionada {
     background-color: var(--activo);
     border-color: var(--amarillo);
     color: var(--amarillo);
     font-weight: bold;
+    box-shadow: 0 0 10px rgba(255, 242, 0, 0.35);
+    transform: translateX(4px);
 }
 
 #panelDetalleCientifico {
@@ -1037,4 +1051,51 @@ body h2 {
 
 #panelDetalleCientifico ul {
     margin: 10px 0 14px 20px;
+}
+
+.estado-vacio {
+    color: var(--texto);
+    opacity: 0.9;
+    margin-bottom: 12px;
+}
+
+.notas input[type="text"],
+.notas select {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--fondo);
+    border: 2px solid var(--acento);
+    border-radius: 10px;
+    color: var(--texto);
+}
+
+.notas .control {
+    margin-bottom: 14px;
+}
+
+#errorNota {
+    color: var(--amarillo);
+    margin: 10px 0;
+    font-weight: bold;
+}
+
+#resumenQuiz {
+    background-color: var(--encabezado);
+    border: 2px solid var(--acento);
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+    color: var(--texto);
+}
+
+#resumenQuiz h3 {
+    color: var(--amarillo);
+    margin-bottom: 12px;
+}
+
+#resumenQuiz ul {
+    margin: 14px 0 18px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }

@@ -9,7 +9,6 @@ function cargarBitacora() {
     favoritos = leerStorageSeguro(CLAVE_FAVORITOS, "array");
     notas = leerStorageSeguro(CLAVE_NOTAS, "array");
 
-    // Filtrar favoritos por seguridad para que no contengan duplicados ni ids inexistentes
     const limpios = [];
     for (let i = 0; i < favoritos.length; i++) {
         const id = favoritos[i];
@@ -19,7 +18,6 @@ function cargarBitacora() {
     }
     favoritos = limpios;
 
-    // Filtrar notas válidas
     const notasValidas = [];
     for (let i = 0; i < notas.length; i++) {
         const n = notas[i];
@@ -90,7 +88,7 @@ function renderizarFavoritosBitacora() {
 
     if (favoritos.length === 0) {
         const p = document.createElement("p");
-        p.className = "estado-texto";
+        p.className = "estado-vacio";
         p.textContent = "Aún no tienes descubrimientos guardados en favoritos.";
         cont.appendChild(p);
         return;
@@ -100,21 +98,21 @@ function renderizarFavoritosBitacora() {
         const ficha = buscarDescubrimientoPorId(favoritos[i]);
         if (!ficha) continue;
 
-        const item = document.createElement("div");
-        item.className = "nota-card";
+        const item = document.createElement("article");
+        item.className = "favorito";
 
-        const titulo = document.createElement("strong");
+        const titulo = document.createElement("h4");
         titulo.textContent = ficha.id + " - " + ficha.titulo;
 
         const area = document.createElement("p");
         area.textContent = "Área: " + obtenerNombreArea(ficha.area);
 
         const acciones = document.createElement("div");
-        acciones.className = "acciones-sim";
+        acciones.className = "nota-botones";
 
         const btnDetalle = document.createElement("button");
         btnDetalle.type = "button";
-        btnDetalle.className = "btn-primario";
+        btnDetalle.className = "boton boton-principal boton-chico";
         btnDetalle.textContent = "Ver detalle";
         btnDetalle.onclick = function () {
             abrirDetalleDescubrimiento(ficha.id);
@@ -122,7 +120,7 @@ function renderizarFavoritosBitacora() {
 
         const btnQuitar = document.createElement("button");
         btnQuitar.type = "button";
-        btnQuitar.className = "btn-secundario";
+        btnQuitar.className = "boton boton-secundario boton-chico";
         btnQuitar.textContent = "Quitar de favoritos";
         btnQuitar.onclick = function () {
             alternarFavorito(ficha.id);
@@ -202,7 +200,7 @@ function iniciarEdicionNota(idNota) {
             document.getElementById("notaTitulo").value = notas[i].titulo;
             document.getElementById("notaTexto").value = notas[i].texto;
             document.getElementById("notaDescubrimiento").value = notas[i].descubrimientoId || "";
-            document.getElementById("tituloFormNota").textContent = "Editar nota";
+            document.getElementById("tituloFormNota").textContent = "Editar Nota";
             document.getElementById("btnGuardarNota").textContent = "Guardar cambios";
             document.getElementById("btnCancelarEdicion").classList.remove("oculto");
             document.getElementById("errorNota").textContent = "";
@@ -215,8 +213,8 @@ function iniciarEdicionNota(idNota) {
 function cancelarEdicionNota() {
     document.getElementById("formNota").reset();
     document.getElementById("notaEditId").value = "";
-    document.getElementById("tituloFormNota").textContent = "Nueva nota personal";
-    document.getElementById("btnGuardarNota").textContent = "Guardar nota";
+    document.getElementById("tituloFormNota").textContent = "Nueva Nota";
+    document.getElementById("btnGuardarNota").textContent = "Guardar Nota";
     document.getElementById("btnCancelarEdicion").classList.add("oculto");
     document.getElementById("errorNota").textContent = "";
 }
@@ -248,35 +246,33 @@ function renderizarNotasBitacora() {
 
     if (notas.length === 0) {
         const p = document.createElement("p");
-        p.className = "estado-texto";
+        p.className = "estado-vacio";
         p.textContent = "No hay notas registradas todavía.";
         cont.appendChild(p);
         return;
     }
 
-    // Más reciente a más antigua
     const ordenadas = notas.slice().sort(function (a, b) {
         return (b.timestamp || 0) - (a.timestamp || 0);
     });
 
     for (let i = 0; i < ordenadas.length; i++) {
         const n = ordenadas[i];
-        const card = document.createElement("div");
-        card.className = "nota-card";
+        const card = document.createElement("article");
+        card.className = "nota";
 
-        const h4 = document.createElement("strong");
+        const h4 = document.createElement("h4");
         h4.textContent = n.titulo;
-
-        const fecha = document.createElement("p");
-        fecha.className = "estado-texto";
-        fecha.textContent = "Creada: " + n.fechaCreacion;
 
         const cuerpo = document.createElement("p");
         cuerpo.textContent = n.texto;
 
+        const fecha = document.createElement("small");
+        fecha.textContent = "Creada: " + n.fechaCreacion;
+
         card.appendChild(h4);
-        card.appendChild(fecha);
         card.appendChild(cuerpo);
+        card.appendChild(fecha);
 
         if (n.descubrimientoId) {
             const ficha = buscarDescubrimientoPorId(n.descubrimientoId);
@@ -288,11 +284,11 @@ function renderizarNotasBitacora() {
         }
 
         const acciones = document.createElement("div");
-        acciones.className = "acciones-sim";
+        acciones.className = "nota-botones";
 
         const btnEditar = document.createElement("button");
         btnEditar.type = "button";
-        btnEditar.className = "btn-secundario";
+        btnEditar.className = "boton boton-principal boton-chico";
         btnEditar.textContent = "Editar";
         btnEditar.onclick = function () {
             iniciarEdicionNota(n.id);
@@ -300,7 +296,7 @@ function renderizarNotasBitacora() {
 
         const btnEliminar = document.createElement("button");
         btnEliminar.type = "button";
-        btnEliminar.className = "btn-peligro";
+        btnEliminar.className = "boton boton-secundario boton-chico";
         btnEliminar.textContent = "Eliminar";
         btnEliminar.onclick = function () {
             eliminarNota(n.id);

@@ -35,7 +35,7 @@ function renderizarPreguntaActual() {
 
     document.getElementById("progresoQuiz").textContent = "Pregunta " + (indiceActual + 1) + " de 10";
     document.getElementById("enunciadoQuiz").textContent = q.enunciado;
-    document.getElementById("retroalimentacionQuiz").textContent = "";
+    document.getElementById("retroalimentacionQuiz").textContent = "Selecciona una opción y pulsa Confirmar respuesta.";
 
     const btnConfirmar = document.getElementById("btnConfirmarRespuesta");
     const btnSiguiente = document.getElementById("btnSiguientePregunta");
@@ -49,12 +49,12 @@ function renderizarPreguntaActual() {
     for (let i = 0; i < q.opciones.length; i++) {
         const btn = document.createElement("button");
         btn.type = "button";
-        btn.className = "btn opcion-btn";
+        btn.className = "opcion";
         btn.textContent = q.opciones[i];
         btn.onclick = function () {
             if (confirmadaActual) return;
             opcionSeleccionada = i;
-            const todos = contOpciones.querySelectorAll(".opcion-btn");
+            const todos = contOpciones.querySelectorAll(".opcion");
             for (let k = 0; k < todos.length; k++) {
                 todos[k].classList.remove("seleccionada");
             }
@@ -81,7 +81,7 @@ function confirmarRespuesta() {
         correcta: esCorrecta
     });
 
-    const todos = document.getElementById("opcionesQuiz").querySelectorAll(".opcion-btn");
+    const todos = document.getElementById("opcionesQuiz").querySelectorAll(".opcion");
     for (let i = 0; i < todos.length; i++) {
         todos[i].disabled = true;
     }
@@ -143,8 +143,7 @@ function mostrarResultadosQuiz() {
 
     const btnNuevo = document.createElement("button");
     btnNuevo.type = "button";
-    btnNuevo.className = "btn-primario";
-    btnNuevo.style.marginTop = "12px";
+    btnNuevo.className = "boton boton-principal";
     btnNuevo.textContent = "Nuevo intento";
     btnNuevo.onclick = iniciarIntentoQuiz;
 
