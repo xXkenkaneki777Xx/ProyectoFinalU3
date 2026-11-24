@@ -1,0 +1,26 @@
+# Fuentes consultadas (Fecha de consulta: 2026-11-23)
+
+- Stanford Encyclopedia of Philosophy — Alan Turing: https://plato.stanford.edu/entries/turing/
+- IEEE Computer Society: https://www.computer.org/
+- NeurIPS 2017 — Attention Is All You Need: https://proceedings.neurips.cc/
+- IEEE Xplore: https://ieeexplore.ieee.org/
+- ACM Digital Library: https://dl.acm.org/
+- SpringerLink: https://link.springer.com/
+- U.S. FDA — AI/ML in SaMD: https://www.fda.gov/medical-devices/software-medical-device-samd/artificial-intelligence-and-machine-learning-aiml-enabled-medical-devices
+- NIH / PubMed Central: https://pmc.ncbi.nlm.nih.gov/
+- PubMed: https://pubmed.ncbi.nlm.nih.gov/
+- WHO — Digital Health: https://www.who.int/health-topics/digital-health
+- NIST: https://www.nist.gov/
+- NHTSA: https://www.nhtsa.gov/
+- IEEE Spectrum: https://spectrum.ieee.org/
+- U.S. Department of Transportation: https://www.transportation.gov/
+- NASA Exoplanet Archive: https://exoplanetarchive.ipac.caltech.edu/
+- Event Horizon Telescope: https://eventhorizontelescope.org/
+- NASA Mars 2020: https://mars.nasa.gov/mars2020/
+- LIGO Scientific Collaboration: https://www.ligo.org/
+- Nobel Prize: https://www.nobelprize.org/
+- Science History Institute: https://www.sciencehistory.org/
+- NIH NHGRI: https://www.genome.gov/
+- NIH NLM: https://www.ncbi.nlm.nih.gov/
+- USGS: https://www.usgs.gov/
+- NOAA NESDIS: https://www.nesdis.noaa.gov/

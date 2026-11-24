@@ -4,9 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Documento</title>
+    <title>Science Explorer — Del problema al descubrimiento</title>
     <link rel="stylesheet" href="css/estilos.css">
-
+    <script defer src="js/datos.js"></script>
+    <script defer src="js/bitacora.js"></script>
+    <script defer src="js/biblioteca.js"></script>
+    <script defer src="js/laboratorio.js"></script>
+    <script defer src="js/desafio.js"></script>
+    <script defer src="js/app.js"></script>
 </head>
 
 <body>
@@ -18,15 +23,15 @@
 
         <label for="check" class="btn-menu">☰ Menú</label>
         <div class="enlaces">
-            <ul>
-                <li><a href="#inicio" class="active">Inicio</a></li>
-                <li><a href="#descubrimientos">Descubrimientos</a></li>
-                <li><a href="#cientificos">Científicos</a></li>
-                <li><a href="#laboratorio">Laboratorio</a></li>
-                <li><a href="#cronologia">Línea del tiempo</a></li>
-                <li><a href="#desafio">Desafío</a></li>
-                <li><a href="#bitacora">Bitácora</a></li>
-                <li><a><label for="check" class="btn-menu2">☰ Menú</label></a></li>
+            <ul id="navMenu">
+                <li><a href="#inicio" class="nav-link active" onclick="cerrarMenuMovil()">Inicio</a></li>
+                <li><a href="#descubrimientos" class="nav-link" onclick="cerrarMenuMovil()">Descubrimientos</a></li>
+                <li><a href="#cientificos" class="nav-link" onclick="cerrarMenuMovil()">Científicos</a></li>
+                <li><a href="#laboratorio" class="nav-link" onclick="cerrarMenuMovil()">Laboratorio</a></li>
+                <li><a href="#cronologia" class="nav-link" onclick="cerrarMenuMovil()">Línea del tiempo</a></li>
+                <li><a href="#desafio" class="nav-link" onclick="cerrarMenuMovil()">Desafío</a></li>
+                <li><a href="#bitacora" class="nav-link" onclick="cerrarMenuMovil()">Bitácora</a></li>
+                <li><label for="check" class="btn-menu2">☰ Menú</label></li>
             </ul>
         </div>
     </header>
@@ -45,9 +50,10 @@
                 <a href="#desafio" class="boton boton-secundario">Desafío científico</a>
             </div>
         </div>
+
         <div class="temas">
             <h3 class="subtitulo-seccion">Explora por tema</h3>
-            <div class="temas-cuadricula">
+            <div class="temas-cuadricula" id="tarjetasTematicas">
                 <button class="tarjeta-tema" data-area="A01" type="button">
                     <span class="tema-icono">🤖</span>
                     <span class="tema-nombre">Computación e IA</span>
@@ -70,6 +76,7 @@
                 </button>
             </div>
         </div>
+
         <div class="contadores">
             <div class="contador">
                 <span class="contador-numero" id="contadorDescubrimientos">0</span>
@@ -84,9 +91,10 @@
                 <span class="contador-etiqueta">Experimentos</span>
             </div>
         </div>
+
         <div class="destacado">
             <h3 class="subtitulo-seccion">Descubrimiento destacado</h3>
-            <article class="destacado-tarjeta" id="destacado">
+            <article class="destacado-tarjeta" id="tarjetaDestacada">
                 <h4 id="destacadoTitulo">Título del descubrimiento</h4>
                 <ul class="destacado-datos">
                     <li><strong>Año:</strong> <span id="destacadoAnio">—</span></li>
@@ -95,7 +103,7 @@
                     <li><strong>Protagonista:</strong> <span id="destacadoProtagonista">—</span></li>
                 </ul>
                 <p id="destacadoResumen">Resumen breve del descubrimiento.</p>
-                <button id="btnMostrarOtro" class="boton boton-principal" type="button">Mostrar otro</button>
+                <button id="btnMostrarOtro" class="boton boton-principal" type="button" onclick="mostrarOtroDestacado()">Mostrar otro</button>
             </article>
         </div>
     </section>
@@ -105,13 +113,13 @@
 
         <div class="controles" role="search">
             <div class="control">
-                <label for="buscador">Buscar</label>
-                <input type="search" id="buscador" placeholder="Título, protagonista o etiqueta" autocomplete="off">
+                <label for="buscarDescubrimiento">Buscar</label>
+                <input type="search" id="buscarDescubrimiento" placeholder="Título, protagonista o etiqueta" autocomplete="off" oninput="aplicarFiltrosBiblioteca()">
             </div>
             <div class="control">
-                <label for="filtroArea">Área</label>
-                <select id="filtroArea">
-                    <option value="todas">Todas</option>
+                <label for="filtroAreaBib">Área</label>
+                <select id="filtroAreaBib" onchange="aplicarFiltrosBiblioteca()">
+                    <option value="TODAS">Todas</option>
                     <option value="A01">Inteligencia artificial y ciencias de la computación</option>
                     <option value="A02">Medicina y hospitales inteligentes</option>
                     <option value="A03">Vehículos y aeronaves autónomas</option>
@@ -125,90 +133,39 @@
                 </select>
             </div>
             <div class="control">
-                <label for="filtroTipo">Tipo</label>
-                <select id="filtroTipo">
-                    <option value="todos">Todos</option>
+                <label for="filtroTipoBib">Tipo</label>
+                <select id="filtroTipoBib" onchange="aplicarFiltrosBiblioteca()">
+                    <option value="TODOS">Todos</option>
                     <option value="DESCUBRIMIENTO">Descubrimiento</option>
                     <option value="AVANCE">Avance</option>
                     <option value="APLICACIÓN">Aplicación</option>
                 </select>
             </div>
             <div class="control">
-                <label for="ordenar">Ordenar por</label>
-                <select id="ordenar">
-                    <option value="reciente">Año más reciente</option>
-                    <option value="antiguo">Año más antiguo</option>
-                    <option value="titulo">Título A–Z</option>
+                <label for="ordenBiblioteca">Ordenar por</label>
+                <select id="ordenBiblioteca" onchange="aplicarFiltrosBiblioteca()">
+                    <option value="anioDesc">Año más reciente</option>
+                    <option value="anioAsc">Año más antiguo</option>
+                    <option value="tituloAZ">Título A–Z</option>
                 </select>
             </div>
         </div>
 
-        <p class="resultados-contador" id="contadorResultados" aria-live="polite">0 de 0 resultados</p>
+        <p class="resultados-contador" id="contadorResultadosBib" aria-live="polite">0 de 0 resultados</p>
 
-        <div class="sin-resultados" id="sinResultados" hidden>
+        <div class="sin-resultados oculto" id="avisoVacioBib">
             <p>No se encontraron descubrimientos con esos criterios.</p>
-            <button type="button" id="btnLimpiarFiltros" class="boton boton-principal">Limpiar filtros</button>
+            <button type="button" id="btnLimpiarFiltros" class="boton boton-principal" onclick="limpiarFiltrosBiblioteca()">Limpiar filtros</button>
         </div>
 
-        <div class="fichas-cuadricula" id="listaFichas"></div>
+        <div class="fichas-cuadricula" id="gridDescubrimientos"></div>
 
-        <template id="plantillaFicha">
-            <article class="ficha">
-                <img class="ficha-imagen" src="" alt="" loading="lazy">
-                <div class="ficha-cuerpo">
-                    <h3 class="ficha-titulo"></h3>
-                    <ul class="ficha-datos">
-                        <li><strong>Año:</strong> <span class="ficha-anio"></span></li>
-                        <li><strong>Área:</strong> <span class="ficha-area"></span></li>
-                        <li><strong>Tipo:</strong> <span class="ficha-tipo"></span></li>
-                    </ul>
-                    <p class="ficha-resumen"></p>
-                    <div class="ficha-botones">
-                        <button type="button" class="boton boton-principal boton-chico btn-detalle">Ver detalle</button>
-                        <button type="button" class="boton boton-secundario boton-chico btn-favorito"
-                            aria-pressed="false">Añadir a favoritos</button>
-                    </div>
-                </div>
-            </article>
-        </template>
-
-        <dialog id="modalDetalle" class="modal" aria-labelledby="modalTitulo">
-            <img class="modal-imagen" id="modalImagen" src="" alt="">
-            <h3 id="modalTitulo"></h3>
-            <dl class="modal-datos">
-                <dt>Año</dt>
-                <dd id="modalAnio"></dd>
-                <dt>Área</dt>
-                <dd id="modalArea"></dd>
-                <dt>Tipo</dt>
-                <dd id="modalTipo"></dd>
-                <dt>Protagonistas</dt>
-                <dd id="modalProtagonistas"></dd>
-                <dt>Estado de madurez</dt>
-                <dd id="modalMadurez"></dd>
-                <dt>Resumen</dt>
-                <dd id="modalResumen"></dd>
-                <dt>Problema</dt>
-                <dd id="modalProblema"></dd>
-                <dt>Explicación</dt>
-                <dd id="modalExplicacion"></dd>
-                <dt>Impacto</dt>
-                <dd id="modalImpacto"></dd>
-                <dt>Limitaciones</dt>
-                <dd id="modalLimitaciones"></dd>
-                <dt>Etiquetas</dt>
-                <dd id="modalEtiquetas"></dd>
-                <dt>Fuente</dt>
-                <dd><a id="modalFuente" href="#" target="_blank" rel="noopener noreferrer"></a></dd>
-                <dt>Fecha de consulta</dt>
-                <dd id="modalFechaConsulta"></dd>
-            </dl>
+        <div id="modalDetalle" class="modal oculto" role="dialog" aria-modal="true" aria-labelledby="modalTitulo">
+            <div class="modal-contenido" id="cuerpoModal"></div>
             <div class="modal-botones">
-                <button type="button" class="boton boton-secundario btn-favorito-modal" id="btnFavoritoModal"
-                    aria-pressed="false">Añadir a favoritos</button>
-                <button type="button" class="boton boton-principal" id="btnCerrarModal">Cerrar</button>
+                <button type="button" class="boton boton-principal" id="btnCerrarModal" onclick="cerrarModal()">Cerrar</button>
             </div>
-        </dialog>
+        </div>
     </section>
 
     <section id="cientificos" class="cientificos">
@@ -217,108 +174,90 @@
         <div class="controles">
             <div class="control">
                 <label for="buscarCientifico">Buscar científico</label>
-                <input type="search" id="buscarCientifico" placeholder="Nombre del científico">
+                <input type="search" id="buscarCientifico" placeholder="Nombre del científico" oninput="filtrarCientificos()">
             </div>
 
             <div class="control">
-                <label for="filtroDisciplina">Disciplina</label>
-                <select id="filtroDisciplina">
-                    <option>Todas</option>
-                    <option>Computación</option>
-                    <option>Inteligencia Artificial</option>
-                    <option>Robótica</option>
-                    <option>Medicina</option>
-                    <option>Astronomía</option>
+                <label for="filtroDisciplinaCient">Disciplina</label>
+                <select id="filtroDisciplinaCient" onchange="filtrarCientificos()">
+                    <option value="TODAS">Todas</option>
                 </select>
             </div>
 
             <div class="control">
-                <label for="ordenCientificos">Ordenar</label>
-                <select id="ordenCientificos">
-                    <option>A-Z</option>
-                    <option>Z-A</option>
-                </select>
+                <button type="button" class="boton boton-secundario" onclick="restablecerFiltrosCientificos()">Restablecer filtros</button>
             </div>
         </div>
 
-        <div class="cientificos-grid">
-
-            <article class="cientifico-card">
-                <img src="img/cientifico.jpg" alt="Científico">
-
-                <div class="cientifico-info">
-                    <h3>Nombre del Científico</h3>
-                    <p><strong>Disciplina:</strong> Inteligencia Artificial</p>
-                    <p>Contribución principal del científico.</p>
-
-                    <button class="boton boton-principal">
-                        Conocer más
-                    </button>
-                </div>
-            </article>
-
-        </div>
+        <div id="avisoVacioCient" class="sin-resultados oculto"></div>
+        <div class="cientificos-grid" id="gridCientificos"></div>
+        <div id="panelDetalleCientifico" class="oculto"></div>
     </section>
 
     <section id="laboratorio" class="laboratorio">
         <h2>Laboratorio Interactivo</h2>
 
         <div class="simuladores">
-
             <article class="simulador">
                 <h3>Ley de Ohm</h3>
+                <p>Corriente I = V / R (1 a 24 V, 1 a 20 Ω).</p>
 
-                <label>Voltaje (V)</label>
-                <input type="range">
+                <label for="ohmV">Voltaje (V)</label>
+                <input type="number" id="ohmV" min="1" max="24" step="1" value="12" oninput="calcularOhm()">
 
-                <label>Resistencia (Ω)</label>
-                <input type="range">
+                <label for="ohmR">Resistencia (Ω)</label>
+                <input type="number" id="ohmR" min="1" max="20" step="1" value="4" oninput="calcularOhm()">
 
-                <div class="resultado">
+                <div class="resultado" id="ohmResultado">
                     Corriente: 3.00 A
                 </div>
 
-                <button class="boton boton-secundario">
-                    Restablecer
-                </button>
+                <div class="acciones-sim">
+                    <button type="button" class="boton boton-principal" onclick="calcularOhm()">Calcular</button>
+                    <button type="button" class="boton boton-secundario" onclick="resetOhm()">Restablecer</button>
+                </div>
             </article>
 
             <article class="simulador">
                 <h3>Movimiento Rectilíneo Uniforme</h3>
+                <p>Distancia = velocidad × tiempo (0-150 km/h, 0-10 h).</p>
 
-                <label>Velocidad (km/h)</label>
-                <input type="range">
+                <label for="mruVel">Velocidad (km/h)</label>
+                <input type="number" id="mruVel" min="0" max="150" step="1" value="60" oninput="calcularMRU()">
 
-                <label>Tiempo (h)</label>
-                <input type="range">
+                <label for="mruTiempo">Tiempo (h)</label>
+                <input type="number" id="mruTiempo" min="0" max="10" step="0.5" value="2" oninput="calcularMRU()">
 
-                <div class="resultado">
+                <div class="resultado" id="mruResultado">
                     Distancia: 120.00 km
                 </div>
 
-                <button class="boton boton-secundario">
-                    Restablecer
-                </button>
+                <div class="acciones-sim">
+                    <button type="button" class="boton boton-principal" onclick="calcularMRU()">Calcular</button>
+                    <button type="button" class="boton boton-secundario" onclick="resetMRU()">Restablecer</button>
+                </div>
             </article>
 
             <article class="simulador">
                 <h3>Vehículo Autónomo</h3>
+                <p>Modelo educativo basado en reglas (0-120 km/h, 0-150 m).</p>
 
-                <label>Velocidad</label>
-                <input type="range">
+                <label for="autoVel">Velocidad (km/h)</label>
+                <input type="number" id="autoVel" min="0" max="120" step="5" value="60" oninput="calcularAuto()">
 
-                <label>Distancia al obstáculo</label>
-                <input type="range">
+                <label for="autoDist">Distancia al obstáculo (m)</label>
+                <input type="number" id="autoDist" min="0" max="150" step="5" value="80" oninput="calcularAuto()">
 
-                <div class="resultado">
+                <div id="autoVisual"></div>
+                <div class="resultado" id="autoResultado">
                     Estado: CONTINUAR
                 </div>
 
-                <button class="boton boton-secundario">
-                    Restablecer
-                </button>
+                <div class="acciones-sim">
+                    <button type="button" class="boton boton-principal" onclick="calcularAuto()">Calcular</button>
+                    <button type="button" class="boton boton-secundario" onclick="resetAuto()">Restablecer</button>
+                </div>
             </article>
-
         </div>
     </section>
 
@@ -326,191 +265,105 @@
         <h2>Línea del Tiempo</h2>
 
         <div class="controles">
-
             <div class="control">
-                <label>Área</label>
-                <select>
-                    <option>Todas</option>
+                <label for="filtroAreaCrono">Área</label>
+                <select id="filtroAreaCrono" onchange="filtrarCronologia()">
+                    <option value="TODAS">Todas</option>
                 </select>
             </div>
 
             <div class="control">
-                <label>Periodo</label>
-                <select>
-                    <option>Todos</option>
-                    <option>Antes de 1950</option>
-                    <option>1950-1999</option>
-                    <option>2000-2019</option>
-                    <option>2020+</option>
+                <label for="filtroPeriodoCrono">Periodo</label>
+                <select id="filtroPeriodoCrono" onchange="filtrarCronologia()">
+                    <option value="TODOS">Todos</option>
+                    <option value="ANTES_1950">Antes de 1950</option>
+                    <option value="1950_1999">1950-1999</option>
+                    <option value="2000_2019">2000-2019</option>
+                    <option value="2020_ADELANTE">2020+</option>
                 </select>
             </div>
-
         </div>
 
-        <div class="timeline">
-
-            <article class="timeline-item">
-                <div class="timeline-year">
-                    1990
-                </div>
-
-                <div class="timeline-content">
-                    <h3>Título del descubrimiento</h3>
-
-                    <p>
-                        Resumen breve del descubrimiento.
-                    </p>
-
-                    <button class="boton boton-principal">
-                        Ver descubrimiento
-                    </button>
-                </div>
-            </article>
-
-        </div>
+        <p id="contadorHitos" class="resultados-contador"></p>
+        <div id="avisoVacioCrono" class="sin-resultados oculto"></div>
+        <div class="timeline" id="listaCronologia"></div>
     </section>
 
     <section id="desafio" class="desafio">
         <h2>Desafío Científico</h2>
 
-        <div class="quiz-container">
-
-            <div class="quiz-progreso">
+        <div class="quiz-container" id="contenedorQuiz">
+            <div class="quiz-progreso" id="progresoQuiz">
                 Pregunta 1 de 10
             </div>
 
             <article class="pregunta">
-
-                <h3>
+                <h3 id="enunciadoQuiz">
                     Aquí aparecerá la pregunta.
                 </h3>
 
-                <div class="opciones">
+                <div class="opciones" id="opcionesQuiz"></div>
 
-                    <button class="opcion">
-                        Opción A
-                    </button>
+                <div class="explicacion" id="retroalimentacionQuiz"></div>
 
-                    <button class="opcion">
-                        Opción B
-                    </button>
-
-                    <button class="opcion">
-                        Opción C
-                    </button>
-
-                    <button class="opcion">
-                        Opción D
-                    </button>
-
+                <div class="acciones-sim">
+                    <button type="button" id="btnConfirmarRespuesta" class="boton boton-secundario" onclick="confirmarRespuesta()">Confirmar respuesta</button>
+                    <button type="button" id="btnSiguientePregunta" class="boton boton-principal" disabled onclick="siguientePregunta()">Siguiente</button>
                 </div>
-
-                <div class="explicacion">
-                    Explicación de la respuesta.
-                </div>
-
-                <button class="boton boton-principal">
-                    Siguiente
-                </button>
-
             </article>
-
         </div>
+
+        <div id="resumenQuiz" class="oculto"></div>
     </section>
 
     <section id="bitacora" class="bitacora">
         <h2>Mi Bitácora Científica</h2>
+        <p id="mensajeRecuperacionBitacora" class="sin-resultados oculto"></p>
 
         <div class="bitacora-grid">
-
             <div class="favoritos">
-
                 <h3>Favoritos</h3>
-
-                <div class="favoritos-lista">
-
-                    <article class="favorito">
-                        <h4>Título del descubrimiento</h4>
-
-                        <p>Área</p>
-
-                        <button class="boton boton-principal">
-                            Ver detalle
-                        </button>
-
-                        <button class="boton boton-secundario">
-                            Quitar
-                        </button>
-                    </article>
-
-                </div>
-
+                <div class="favoritos-lista" id="listaFavoritosBitacora"></div>
             </div>
 
             <div class="notas">
+                <h3 id="tituloFormNota">Nueva Nota</h3>
 
-                <h3>Nueva Nota</h3>
-
-                <form>
+                <form id="formNota" onsubmit="guardarNota(event)">
+                    <input type="hidden" id="notaEditId" value="">
 
                     <div class="control">
-                        <label>Título</label>
-                        <input type="text">
+                        <label for="notaTitulo">Título</label>
+                        <input type="text" id="notaTitulo" minlength="3" maxlength="80" required>
                     </div>
 
                     <div class="control">
-                        <label>Nota</label>
-                        <textarea rows="5"></textarea>
+                        <label for="notaTexto">Nota</label>
+                        <textarea id="notaTexto" rows="5" minlength="10" maxlength="500" required></textarea>
                     </div>
 
                     <div class="control">
-                        <label>Descubrimiento relacionado</label>
-                        <select>
-                            <option>Ninguno</option>
+                        <label for="notaDescubrimiento">Descubrimiento relacionado</label>
+                        <select id="notaDescubrimiento">
+                            <option value="">Ninguno</option>
                         </select>
                     </div>
 
-                    <button class="boton boton-principal">
-                        Guardar Nota
-                    </button>
+                    <p id="errorNota"></p>
 
+                    <div class="acciones-sim">
+                        <button type="submit" id="btnGuardarNota" class="boton boton-principal">Guardar Nota</button>
+                        <button type="button" id="btnCancelarEdicion" class="boton boton-secundario oculto" onclick="cancelarEdicionNota()">Cancelar</button>
+                    </div>
                 </form>
 
                 <h3>Notas Guardadas</h3>
+                <div class="lista-notas" id="listaNotasBitacora"></div>
 
-                <div class="lista-notas">
-
-                    <article class="nota">
-                        <h4>Título de la Nota</h4>
-
-                        <p>
-                            Contenido de la nota.
-                        </p>
-
-                        <small>
-                            24/11/2026
-                        </small>
-
-                        <div class="nota-botones">
-                            <button class="boton boton-principal">
-                                Editar
-                            </button>
-
-                            <button class="boton boton-secundario">
-                                Eliminar
-                            </button>
-                        </div>
-
-                    </article>
-
-                </div>
-
-                <button class="boton boton-secundario">
+                <button type="button" class="boton boton-secundario" onclick="borrarMiBitacora()">
                     Borrar mi bitácora
                 </button>
-
             </div>
-
         </div>
     </section>
 
@@ -525,25 +378,24 @@
             <div class="fuentes">
                 <h4>Fuentes consultadas</h4>
                 <ul>
-                    <li><a href="#" target="_blank">Fuente de ejemplo 1</a></li>
-                    <li><a href="#" target="_blank">Fuente de ejemplo 2</a></li>
-                    <li><a href="#" target="_blank">Fuente de ejemplo 3</a></li>
+                    <li><a href="fuentes.md" target="_blank" rel="noopener noreferrer">Consulta el catálogo completo de fuentes en fuentes.md</a></li>
                 </ul>
             </div>
 
             <p class="anio">&copy; 2026 Science Explorer. Todos los derechos reservados.</p>
         </div>
     </footer>
-</body>
-<script>
-    const check = document.getElementById("check");
-    const enlaces = document.querySelectorAll('.enlaces a[href^="#"]');
 
-    enlaces.forEach(enlace => {
-        enlace.addEventListener('click', () => {
-            check.checked = false;
+    <script>
+        const check = document.getElementById("check");
+        const enlaces = document.querySelectorAll('.enlaces a[href^="#"]');
+
+        enlaces.forEach(enlace => {
+            enlace.addEventListener('click', () => {
+                check.checked = false;
+            });
         });
-    });
-</script>
+    </script>
+</body>
 
 </html>
