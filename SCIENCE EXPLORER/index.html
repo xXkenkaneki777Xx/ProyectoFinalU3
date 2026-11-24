@@ -10,12 +10,13 @@
 </head>
 
 <body>
+    <input type="checkbox" id="check" />
     <header id="encabezado" class="encabezado">
         <div class="titulo">
             <h1>🔬Science Explorer</h1>
         </div>
-        <input type="checkbox" id="check" />
-        <label for="check" class="btn-menu">⏩</label>
+
+        <label for="check" class="btn-menu">☰ Menú</label>
         <div class="enlaces">
             <ul>
                 <li><a href="#inicio" class="active">Inicio</a></li>
@@ -25,32 +26,524 @@
                 <li><a href="#cronologia">Línea del tiempo</a></li>
                 <li><a href="#desafio">Desafío</a></li>
                 <li><a href="#bitacora">Bitácora</a></li>
+                <li><a><label for="check" class="btn-menu2">☰ Menú</label></a></li>
             </ul>
         </div>
     </header>
 
-    <div id="inicio">
-        <h2>Inicio</h2>
-    </div>
-    <div id="descubrimientos">
-        <h2>Biblioteca de Descubrimientos</h2>
-    </div>
-    <div id="cientificos">
-        <h2>Grandes Científicos</h2>
-    </div>
-    <div id="laboratorio">
-        <h2>Laboratiorio Interactivo</h2>
-    </div>
-    <div id="cronologia">
-        <h2>Línea del Tiempo</h2>
-    </div>
-    <div id="desafio">
-        <h2>Desafío Científico</h2>
-    </div>
-    <div id="bitacora">
-        <h2>Mi Bitácora Científica</h2>
-    </div>
+    <section id="inicio" class="inicio">
+        <div class="portada">
+            <h2 class="portada-titulo">Science Explorer — Del problema al descubrimiento</h2>
+            <p class="portada-subtitulo">Un recorrido interactivo por los hallazgos que cambiaron la ciencia</p>
+            <p class="portada-descripcion">
+                Explora una biblioteca de descubrimientos, conoce a los científicos que los hicieron posibles
+                y experimenta en un laboratorio interactivo. Aprende cómo cada gran avance nació de un problema
+                por resolver y ponte a prueba con el desafío científico.
+            </p>
+            <div class="portada-botones">
+                <a href="#descubrimientos" class="boton boton-principal">Explorar descubrimientos</a>
+                <a href="#desafio" class="boton boton-secundario">Desafío científico</a>
+            </div>
+        </div>
+        <div class="temas">
+            <h3 class="subtitulo-seccion">Explora por tema</h3>
+            <div class="temas-cuadricula">
+                <button class="tarjeta-tema" data-area="A01" type="button">
+                    <span class="tema-icono">🤖</span>
+                    <span class="tema-nombre">Computación e IA</span>
+                </button>
+                <button class="tarjeta-tema" data-area="A02" type="button">
+                    <span class="tema-icono">🏥</span>
+                    <span class="tema-nombre">Medicina</span>
+                </button>
+                <button class="tarjeta-tema" data-area="A03" type="button">
+                    <span class="tema-icono">🚗</span>
+                    <span class="tema-nombre">Sistemas autónomos</span>
+                </button>
+                <button class="tarjeta-tema" data-area="A04" type="button">
+                    <span class="tema-icono">🦾</span>
+                    <span class="tema-nombre">Robótica</span>
+                </button>
+                <button class="tarjeta-tema" data-area="A06" type="button">
+                    <span class="tema-icono">🚀</span>
+                    <span class="tema-nombre">Cosmos</span>
+                </button>
+            </div>
+        </div>
+        <div class="contadores">
+            <div class="contador">
+                <span class="contador-numero" id="contadorDescubrimientos">0</span>
+                <span class="contador-etiqueta">Descubrimientos</span>
+            </div>
+            <div class="contador">
+                <span class="contador-numero" id="contadorCientificos">0</span>
+                <span class="contador-etiqueta">Científicos</span>
+            </div>
+            <div class="contador">
+                <span class="contador-numero" id="contadorExperimentos">0</span>
+                <span class="contador-etiqueta">Experimentos</span>
+            </div>
+        </div>
+        <div class="destacado">
+            <h3 class="subtitulo-seccion">Descubrimiento destacado</h3>
+            <article class="destacado-tarjeta" id="destacado">
+                <h4 id="destacadoTitulo">Título del descubrimiento</h4>
+                <ul class="destacado-datos">
+                    <li><strong>Año:</strong> <span id="destacadoAnio">—</span></li>
+                    <li><strong>Área:</strong> <span id="destacadoArea">—</span></li>
+                    <li><strong>Tipo:</strong> <span id="destacadoTipo">—</span></li>
+                    <li><strong>Protagonista:</strong> <span id="destacadoProtagonista">—</span></li>
+                </ul>
+                <p id="destacadoResumen">Resumen breve del descubrimiento.</p>
+                <button id="btnMostrarOtro" class="boton boton-principal" type="button">Mostrar otro</button>
+            </article>
+        </div>
+    </section>
 
+    <section id="descubrimientos" class="biblioteca">
+        <h2>Biblioteca de Descubrimientos</h2>
+
+        <div class="controles" role="search">
+            <div class="control">
+                <label for="buscador">Buscar</label>
+                <input type="search" id="buscador" placeholder="Título, protagonista o etiqueta" autocomplete="off">
+            </div>
+            <div class="control">
+                <label for="filtroArea">Área</label>
+                <select id="filtroArea">
+                    <option value="todas">Todas</option>
+                    <option value="A01">Inteligencia artificial y ciencias de la computación</option>
+                    <option value="A02">Medicina y hospitales inteligentes</option>
+                    <option value="A03">Vehículos y aeronaves autónomas</option>
+                    <option value="A04">Robótica inteligente</option>
+                    <option value="A05">Ciudades inteligentes</option>
+                    <option value="A06">Cosmos, astronomía y exploración espacial</option>
+                    <option value="A07">Física</option>
+                    <option value="A08">Química</option>
+                    <option value="A09">Biología</option>
+                    <option value="A10">Ciencias de la Tierra</option>
+                </select>
+            </div>
+            <div class="control">
+                <label for="filtroTipo">Tipo</label>
+                <select id="filtroTipo">
+                    <option value="todos">Todos</option>
+                    <option value="DESCUBRIMIENTO">Descubrimiento</option>
+                    <option value="AVANCE">Avance</option>
+                    <option value="APLICACIÓN">Aplicación</option>
+                </select>
+            </div>
+            <div class="control">
+                <label for="ordenar">Ordenar por</label>
+                <select id="ordenar">
+                    <option value="reciente">Año más reciente</option>
+                    <option value="antiguo">Año más antiguo</option>
+                    <option value="titulo">Título A–Z</option>
+                </select>
+            </div>
+        </div>
+
+        <p class="resultados-contador" id="contadorResultados" aria-live="polite">0 de 0 resultados</p>
+
+        <div class="sin-resultados" id="sinResultados" hidden>
+            <p>No se encontraron descubrimientos con esos criterios.</p>
+            <button type="button" id="btnLimpiarFiltros" class="boton boton-principal">Limpiar filtros</button>
+        </div>
+
+        <div class="fichas-cuadricula" id="listaFichas"></div>
+
+        <template id="plantillaFicha">
+            <article class="ficha">
+                <img class="ficha-imagen" src="" alt="" loading="lazy">
+                <div class="ficha-cuerpo">
+                    <h3 class="ficha-titulo"></h3>
+                    <ul class="ficha-datos">
+                        <li><strong>Año:</strong> <span class="ficha-anio"></span></li>
+                        <li><strong>Área:</strong> <span class="ficha-area"></span></li>
+                        <li><strong>Tipo:</strong> <span class="ficha-tipo"></span></li>
+                    </ul>
+                    <p class="ficha-resumen"></p>
+                    <div class="ficha-botones">
+                        <button type="button" class="boton boton-principal boton-chico btn-detalle">Ver detalle</button>
+                        <button type="button" class="boton boton-secundario boton-chico btn-favorito"
+                            aria-pressed="false">Añadir a favoritos</button>
+                    </div>
+                </div>
+            </article>
+        </template>
+
+        <dialog id="modalDetalle" class="modal" aria-labelledby="modalTitulo">
+            <img class="modal-imagen" id="modalImagen" src="" alt="">
+            <h3 id="modalTitulo"></h3>
+            <dl class="modal-datos">
+                <dt>Año</dt>
+                <dd id="modalAnio"></dd>
+                <dt>Área</dt>
+                <dd id="modalArea"></dd>
+                <dt>Tipo</dt>
+                <dd id="modalTipo"></dd>
+                <dt>Protagonistas</dt>
+                <dd id="modalProtagonistas"></dd>
+                <dt>Estado de madurez</dt>
+                <dd id="modalMadurez"></dd>
+                <dt>Resumen</dt>
+                <dd id="modalResumen"></dd>
+                <dt>Problema</dt>
+                <dd id="modalProblema"></dd>
+                <dt>Explicación</dt>
+                <dd id="modalExplicacion"></dd>
+                <dt>Impacto</dt>
+                <dd id="modalImpacto"></dd>
+                <dt>Limitaciones</dt>
+                <dd id="modalLimitaciones"></dd>
+                <dt>Etiquetas</dt>
+                <dd id="modalEtiquetas"></dd>
+                <dt>Fuente</dt>
+                <dd><a id="modalFuente" href="#" target="_blank" rel="noopener noreferrer"></a></dd>
+                <dt>Fecha de consulta</dt>
+                <dd id="modalFechaConsulta"></dd>
+            </dl>
+            <div class="modal-botones">
+                <button type="button" class="boton boton-secundario btn-favorito-modal" id="btnFavoritoModal"
+                    aria-pressed="false">Añadir a favoritos</button>
+                <button type="button" class="boton boton-principal" id="btnCerrarModal">Cerrar</button>
+            </div>
+        </dialog>
+    </section>
+
+    <section id="cientificos" class="cientificos">
+        <h2>Grandes Científicos</h2>
+
+        <div class="controles">
+            <div class="control">
+                <label for="buscarCientifico">Buscar científico</label>
+                <input type="search" id="buscarCientifico" placeholder="Nombre del científico">
+            </div>
+
+            <div class="control">
+                <label for="filtroDisciplina">Disciplina</label>
+                <select id="filtroDisciplina">
+                    <option>Todas</option>
+                    <option>Computación</option>
+                    <option>Inteligencia Artificial</option>
+                    <option>Robótica</option>
+                    <option>Medicina</option>
+                    <option>Astronomía</option>
+                </select>
+            </div>
+
+            <div class="control">
+                <label for="ordenCientificos">Ordenar</label>
+                <select id="ordenCientificos">
+                    <option>A-Z</option>
+                    <option>Z-A</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="cientificos-grid">
+
+            <article class="cientifico-card">
+                <img src="img/cientifico.jpg" alt="Científico">
+
+                <div class="cientifico-info">
+                    <h3>Nombre del Científico</h3>
+                    <p><strong>Disciplina:</strong> Inteligencia Artificial</p>
+                    <p>Contribución principal del científico.</p>
+
+                    <button class="boton boton-principal">
+                        Conocer más
+                    </button>
+                </div>
+            </article>
+
+        </div>
+    </section>
+
+    <section id="laboratorio" class="laboratorio">
+        <h2>Laboratorio Interactivo</h2>
+
+        <div class="simuladores">
+
+            <article class="simulador">
+                <h3>Ley de Ohm</h3>
+
+                <label>Voltaje (V)</label>
+                <input type="range">
+
+                <label>Resistencia (Ω)</label>
+                <input type="range">
+
+                <div class="resultado">
+                    Corriente: 3.00 A
+                </div>
+
+                <button class="boton boton-secundario">
+                    Restablecer
+                </button>
+            </article>
+
+            <article class="simulador">
+                <h3>Movimiento Rectilíneo Uniforme</h3>
+
+                <label>Velocidad (km/h)</label>
+                <input type="range">
+
+                <label>Tiempo (h)</label>
+                <input type="range">
+
+                <div class="resultado">
+                    Distancia: 120.00 km
+                </div>
+
+                <button class="boton boton-secundario">
+                    Restablecer
+                </button>
+            </article>
+
+            <article class="simulador">
+                <h3>Vehículo Autónomo</h3>
+
+                <label>Velocidad</label>
+                <input type="range">
+
+                <label>Distancia al obstáculo</label>
+                <input type="range">
+
+                <div class="resultado">
+                    Estado: CONTINUAR
+                </div>
+
+                <button class="boton boton-secundario">
+                    Restablecer
+                </button>
+            </article>
+
+        </div>
+    </section>
+
+    <section id="cronologia" class="cronologia">
+        <h2>Línea del Tiempo</h2>
+
+        <div class="controles">
+
+            <div class="control">
+                <label>Área</label>
+                <select>
+                    <option>Todas</option>
+                </select>
+            </div>
+
+            <div class="control">
+                <label>Periodo</label>
+                <select>
+                    <option>Todos</option>
+                    <option>Antes de 1950</option>
+                    <option>1950-1999</option>
+                    <option>2000-2019</option>
+                    <option>2020+</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="timeline">
+
+            <article class="timeline-item">
+                <div class="timeline-year">
+                    1990
+                </div>
+
+                <div class="timeline-content">
+                    <h3>Título del descubrimiento</h3>
+
+                    <p>
+                        Resumen breve del descubrimiento.
+                    </p>
+
+                    <button class="boton boton-principal">
+                        Ver descubrimiento
+                    </button>
+                </div>
+            </article>
+
+        </div>
+    </section>
+
+    <section id="desafio" class="desafio">
+        <h2>Desafío Científico</h2>
+
+        <div class="quiz-container">
+
+            <div class="quiz-progreso">
+                Pregunta 1 de 10
+            </div>
+
+            <article class="pregunta">
+
+                <h3>
+                    Aquí aparecerá la pregunta.
+                </h3>
+
+                <div class="opciones">
+
+                    <button class="opcion">
+                        Opción A
+                    </button>
+
+                    <button class="opcion">
+                        Opción B
+                    </button>
+
+                    <button class="opcion">
+                        Opción C
+                    </button>
+
+                    <button class="opcion">
+                        Opción D
+                    </button>
+
+                </div>
+
+                <div class="explicacion">
+                    Explicación de la respuesta.
+                </div>
+
+                <button class="boton boton-principal">
+                    Siguiente
+                </button>
+
+            </article>
+
+        </div>
+    </section>
+
+    <section id="bitacora" class="bitacora">
+        <h2>Mi Bitácora Científica</h2>
+
+        <div class="bitacora-grid">
+
+            <div class="favoritos">
+
+                <h3>Favoritos</h3>
+
+                <div class="favoritos-lista">
+
+                    <article class="favorito">
+                        <h4>Título del descubrimiento</h4>
+
+                        <p>Área</p>
+
+                        <button class="boton boton-principal">
+                            Ver detalle
+                        </button>
+
+                        <button class="boton boton-secundario">
+                            Quitar
+                        </button>
+                    </article>
+
+                </div>
+
+            </div>
+
+            <div class="notas">
+
+                <h3>Nueva Nota</h3>
+
+                <form>
+
+                    <div class="control">
+                        <label>Título</label>
+                        <input type="text">
+                    </div>
+
+                    <div class="control">
+                        <label>Nota</label>
+                        <textarea rows="5"></textarea>
+                    </div>
+
+                    <div class="control">
+                        <label>Descubrimiento relacionado</label>
+                        <select>
+                            <option>Ninguno</option>
+                        </select>
+                    </div>
+
+                    <button class="boton boton-principal">
+                        Guardar Nota
+                    </button>
+
+                </form>
+
+                <h3>Notas Guardadas</h3>
+
+                <div class="lista-notas">
+
+                    <article class="nota">
+                        <h4>Título de la Nota</h4>
+
+                        <p>
+                            Contenido de la nota.
+                        </p>
+
+                        <small>
+                            24/11/2026
+                        </small>
+
+                        <div class="nota-botones">
+                            <button class="boton boton-principal">
+                                Editar
+                            </button>
+
+                            <button class="boton boton-secundario">
+                                Eliminar
+                            </button>
+                        </div>
+
+                    </article>
+
+                </div>
+
+                <button class="boton boton-secundario">
+                    Borrar mi bitácora
+                </button>
+
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="pie-pagina" id="fuentes">
+        <div class="pie-contenido">
+            <h3>🔬 Science Explorer</h3>
+            <p class="creditos">
+                Desarrollado por <strong>Angel Daniel Peralta Pérez</strong>
+                y <strong>Braulio Porfirio Maya Mandujano</strong>
+            </p>
+
+            <div class="fuentes">
+                <h4>Fuentes consultadas</h4>
+                <ul>
+                    <li><a href="#" target="_blank">Fuente de ejemplo 1</a></li>
+                    <li><a href="#" target="_blank">Fuente de ejemplo 2</a></li>
+                    <li><a href="#" target="_blank">Fuente de ejemplo 3</a></li>
+                </ul>
+            </div>
+
+            <p class="anio">&copy; 2026 Science Explorer. Todos los derechos reservados.</p>
+        </div>
+    </footer>
 </body>
+<script>
+    const check = document.getElementById("check");
+    const enlaces = document.querySelectorAll('.enlaces a[href^="#"]');
+
+    enlaces.forEach(enlace => {
+        enlace.addEventListener('click', () => {
+            check.checked = false;
+        });
+    });
+</script>
 
 </html>
